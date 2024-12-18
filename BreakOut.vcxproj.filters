@@ -19,6 +19,9 @@
     <Filter Include="Header Files\Managers">
       <UniqueIdentifier>{29a5e146-bbcd-4f6f-bd33-371b624959d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\shaders">
+      <UniqueIdentifier>{d862ab6f-3cce-4e1f-b81e-e910ada8b6ac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\glad.c">
@@ -39,14 +42,9 @@
     <ClCompile Include="src\program.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="src\vertexshader.vs">
+    <ClCompile Include="src\sprite_renderer.cpp">
       <Filter>Source Files</Filter>
-    </None>
-    <None Include="src\fragmentshader.fs">
-      <Filter>Source Files</Filter>
-    </None>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stb_image.h">
@@ -64,5 +62,16 @@
     <ClInclude Include="src\texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\sprite_renderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\shaders\sprite.fs">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="src\shaders\sprite.vs">
+      <Filter>Source Files\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
