@@ -135,6 +135,7 @@
   <ItemGroup>
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\glad.c" />
+    <ClCompile Include="src\Managers\resource_manager.cpp" />
     <ClCompile Include="src\Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +143,7 @@
     <None Include="src\vertexshader.vs" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Managers\resource_manager.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\stb_image.h" />
   </ItemGroup>
