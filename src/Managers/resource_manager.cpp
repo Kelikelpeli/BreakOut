@@ -1,11 +1,10 @@
-
 #include "resource_manager.h"
 
 #include <iostream>
 #include <sstream>
 #include <fstream>
-#define STB_IMAGE_IMPLEMENTATION 
-#include "D:/Raquel/PG/OpenGL/BreakOut/src/stb_image.h"
+
+#include "D:/Raquel/Master/programacion grafica/ejercicios/desarrollos/Challenge03/BreakOut/src/stb_image.h"
 
 // Instantiate static variables
 std::map<std::string, Texture2D>    ResourceManager::Textures;
@@ -18,7 +17,7 @@ Shader ResourceManager::LoadShader(const char* vShaderFile, const char* fShaderF
     return Shaders[name];
 }
 
-Shader ResourceManager::GetShader(const std::string name)
+Shader ResourceManager::GetShader(std::string name)
 {
     return Shaders[name];
 }

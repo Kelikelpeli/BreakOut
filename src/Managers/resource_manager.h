@@ -6,11 +6,16 @@
 
 #include <glad/glad.h>
 
-#include "D:/Raquel/PG/OpenGL/BreakOut/src/texture.h"
-#include "D:/Raquel/PG/OpenGL/BreakOut/src/shader.h"
+#include "D:/Raquel/Master/programacion grafica/ejercicios/desarrollos/Challenge03/BreakOut/src/texture.h"
+#include "D:/Raquel/Master/programacion grafica/ejercicios/desarrollos/Challenge03/BreakOut/src/shader.h"
 
 
-    class ResourceManager
+// A static singleton ResourceManager class that hosts several
+// functions to load Textures and Shaders. Each loaded texture
+// and/or shader is also stored for future reference by string
+// handles. All functions and resources are static and no 
+// public constructor is defined.
+class ResourceManager
 {
 public:
     // resource storage

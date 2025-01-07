@@ -1,7 +1,6 @@
-#pragma once
 #include <iostream>
 
-#include "D:/Raquel/PG/OpenGL/BreakOut/src/texture.h"
+#include "texture.h"
 
 
 Texture2D::Texture2D()
