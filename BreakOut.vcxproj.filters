@@ -19,14 +19,14 @@
     <Filter Include="Header Files\Managers">
       <UniqueIdentifier>{29a5e146-bbcd-4f6f-bd33-371b624959d8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\shaders">
-      <UniqueIdentifier>{d862ab6f-3cce-4e1f-b81e-e910ada8b6ac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\resources">
+    <Filter Include="Resource Files\resources">
       <UniqueIdentifier>{7cd13fd5-02e9-44e5-baf1-14852f9bc077}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\resources\levels">
+    <Filter Include="Resource Files\resources\levels">
       <UniqueIdentifier>{18273de9-3449-4c25-bc81-aba80be5f0b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\shaders">
+      <UniqueIdentifier>{d862ab6f-3cce-4e1f-b81e-e910ada8b6ac}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -60,6 +60,12 @@
     <ClCompile Include="src\ballObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\particle_generator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\post_processor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stb_image.h">
@@ -89,25 +95,46 @@
     <ClInclude Include="src\ballObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\particle_generator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\power_up.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\post_processor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shaders\sprite.fs">
-      <Filter>Source Files\shaders</Filter>
+      <Filter>Resource Files\shaders</Filter>
     </None>
     <None Include="src\shaders\sprite.vs">
-      <Filter>Source Files\shaders</Filter>
+      <Filter>Resource Files\shaders</Filter>
     </None>
     <None Include="src\resources\levels\four.lvl">
-      <Filter>Source Files\resources\levels</Filter>
+      <Filter>Resource Files\resources\levels</Filter>
     </None>
     <None Include="src\resources\levels\one.lvl">
-      <Filter>Source Files\resources\levels</Filter>
+      <Filter>Resource Files\resources\levels</Filter>
     </None>
     <None Include="src\resources\levels\three.lvl">
-      <Filter>Source Files\resources\levels</Filter>
+      <Filter>Resource Files\resources\levels</Filter>
     </None>
     <None Include="src\resources\levels\two.lvl">
-      <Filter>Source Files\resources\levels</Filter>
+      <Filter>Resource Files\resources\levels</Filter>
+    </None>
+    <None Include="src\shaders\particle.vs">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="src\shaders\particle.fs">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="src\shaders\post_processing.vs">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="src\shaders\post_processing.fs">
+      <Filter>Resource Files\shaders</Filter>
     </None>
   </ItemGroup>
 </Project>
