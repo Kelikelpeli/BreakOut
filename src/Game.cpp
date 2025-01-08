@@ -27,7 +27,7 @@ Game::~Game()
 void Game::Init()
 {
 	// load shaders
-	ResourceManager::LoadShader("D:/Raquel/PG/OpenGL/BreakOut/src/shaders/sprite.vs", "D:/Raquel/PG/OpenGL/BreakOut/src/shaders/sprite.fs", nullptr, "sprite");
+	ResourceManager::LoadShader("src/shaders/sprite.vs", "src/shaders/sprite.fs", nullptr, "sprite");
 	//configure shaders
 	glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(this->Width),
 		static_cast<float>(this->Height), 0.0f, -1.0f, 1.0f);
@@ -39,7 +39,7 @@ void Game::Init()
 
 	//Renderer = new SpriteRenderer (ResourceManager::GetShader("sprite"));
 	// load textures
-	ResourceManager::LoadTexture("D:/Raquel/PG/OpenGL/BreakOut/src/resources/textures/awesomeface.png", true, "face");
+	ResourceManager::LoadTexture("src/resources/textures/awesomeface.png", true, "face");
 }
 
 void Game::Update(float dt)

@@ -5,7 +5,7 @@
 #include <sstream>
 #include <fstream>
 #define STB_IMAGE_IMPLEMENTATION 
-#include "D:/Raquel/PG/OpenGL/BreakOut/src/stb_image.h"
+#include "stb_image.h"
 
 // Instantiate static variables
 std::map<std::string, Texture2D>    ResourceManager::Textures;

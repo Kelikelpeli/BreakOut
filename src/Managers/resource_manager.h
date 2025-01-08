@@ -6,8 +6,8 @@
 
 #include <glad/glad.h>
 
-#include "D:/Raquel/PG/OpenGL/BreakOut/src/texture.h"
-#include "D:/Raquel/PG/OpenGL/BreakOut/src/shader.h"
+#include "texture.h"
+#include "shader.h"
 
 
     class ResourceManager
