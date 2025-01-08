@@ -1,3 +1,6 @@
+#include <algorithm>
+
+#include <filesystem>
 
 #include "game.h"
 #include "Managers/resource_manager.h"
@@ -6,12 +9,16 @@
 #include "particle_generator.h"
 #include "post_processor.h"
 
+#include <irrklang/irrKlang.h>
+using namespace irrklang;
+
 // Game-related State data
 SpriteRenderer* Renderer;
 GameObject* Player;
 BallObject* Ball;
 ParticleGenerator* Particles;
 PostProcessor* Effects;
+ISoundEngine* SoundEngine = createIrrKlangDevice();
 
 float ShakeTime = 0.0f;
 
@@ -28,6 +35,7 @@ Game::~Game()
 	delete Ball;
 	delete Particles;
 	delete Effects;
+	SoundEngine->drop();
 }
 
 void Game::Init()
@@ -80,6 +88,9 @@ void Game::Init()
 	Player = new GameObject(playerPos, PLAYER_SIZE, ResourceManager::GetTexture("paddle"));
 	glm::vec2 ballPos = playerPos + glm::vec2(PLAYER_SIZE.x / 2.0f - BALL_RADIUS, -BALL_RADIUS * 2.0f);
 	Ball = new BallObject(ballPos, BALL_RADIUS, INITIAL_BALL_VELOCITY, ResourceManager::GetTexture("face"));
+
+	SoundEngine->play2D("src/resources/audio/breakout.mp3", true);
+	
 }
 
 void Game::Update(float dt)
@@ -330,11 +341,13 @@ void Game::DoCollisions()
 				{
 					box.Destroyed = true;
 					this->SpawnPowerUps(box);
+					SoundEngine->play2D("src/resources/audio/bleep.mp3", false);
 				}
 				else
 				{   // if block is solid, enable shake effect
 					ShakeTime = 0.05f;
 					Effects->Shake = true;
+					SoundEngine->play2D("src/resources/audio/solid.wav", false);
 				}
 				// collision resolution
 				Direction dir = std::get<1>(collision);
@@ -364,22 +377,25 @@ void Game::DoCollisions()
 				}
 			}
 		}
-		for (PowerUp& powerUp : this->PowerUps)
+	
+	}
+	
+	for (PowerUp& powerUp : this->PowerUps)
+	{
+		if (!powerUp.Destroyed)
 		{
-			if (!powerUp.Destroyed)
-			{
-				if (powerUp.Position.y >= this->Height)
-					powerUp.Destroyed = true;
-				if (CheckCollision(*Player, powerUp))
-				{	// collided with player, now activate powerup
-					ActivatePowerUp(powerUp);
-					powerUp.Destroyed = true;
-					powerUp.Activated = true;
-				}
+			if (powerUp.Position.y >= this->Height)
+				powerUp.Destroyed = true;
+			if (CheckCollision(*Player, powerUp))
+			{	// collided with player, now activate powerup
+				ActivatePowerUp(powerUp);
+				powerUp.Destroyed = true;
+				powerUp.Activated = true;
+				SoundEngine->play2D("src/resources/audio/powerup.wav", false);
 			}
 		}
 	}
-	
+
 	// check collisions for player pad (unless stuck)
 	Collision result = CheckCollision(*Ball, *Player);
 	if (!Ball->Stuck && std::get<0>(result))
@@ -397,6 +413,8 @@ void Game::DoCollisions()
 		// fix sticky paddle
 		Ball->Velocity.y = -1.0f * abs(Ball->Velocity.y);
 		Ball->Stuck = Ball->Sticky;
+
+		SoundEngine->play2D("src/resources/audio/bleep.wav", false);
 	}
 }
 

@@ -104,6 +104,9 @@
     <ClInclude Include="src\post_processor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Dependencies\include\irrKlang\irrKlang.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shaders\sprite.fs">
