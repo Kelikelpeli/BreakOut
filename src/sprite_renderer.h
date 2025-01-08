@@ -5,8 +5,8 @@
 #include <glm/glm.hpp>
 //#include <glm/gtc/matrix_transform.hpp>
 
-#include "D:/Raquel/Master/programacion grafica/ejercicios/desarrollos/Challenge03/BreakOut/src/texture.h"
-#include "D:/Raquel/Master/programacion grafica/ejercicios/desarrollos/Challenge03/BreakOut/src/shader.h"
+#include "texture.h"
+#include "shader.h"
 
 
 class SpriteRenderer
