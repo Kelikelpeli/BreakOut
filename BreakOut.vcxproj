@@ -133,7 +133,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\ballObject.cpp" />
     <ClCompile Include="src\game.cpp" />
+    <ClCompile Include="src\game_level.cpp" />
+    <ClCompile Include="src\game_object.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\Managers\resource_manager.cpp" />
     <ClCompile Include="src\program.cpp" />
@@ -142,7 +145,10 @@
     <ClCompile Include="src\texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ballObject.h" />
     <ClInclude Include="src\game.h" />
+    <ClInclude Include="src\game_level.h" />
+    <ClInclude Include="src\game_object.h" />
     <ClInclude Include="src\Managers\resource_manager.h" />
     <ClInclude Include="src\shader.h" />
     <ClInclude Include="src\sprite_renderer.h" />
@@ -150,6 +156,10 @@
     <ClInclude Include="src\texture.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="src\resources\levels\four.lvl" />
+    <None Include="src\resources\levels\one.lvl" />
+    <None Include="src\resources\levels\three.lvl" />
+    <None Include="src\resources\levels\two.lvl" />
     <None Include="src\shaders\sprite.fs" />
     <None Include="src\shaders\sprite.vs" />
   </ItemGroup>

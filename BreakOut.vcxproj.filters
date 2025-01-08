@@ -22,6 +22,12 @@
     <Filter Include="Source Files\shaders">
       <UniqueIdentifier>{d862ab6f-3cce-4e1f-b81e-e910ada8b6ac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\resources">
+      <UniqueIdentifier>{7cd13fd5-02e9-44e5-baf1-14852f9bc077}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\resources\levels">
+      <UniqueIdentifier>{18273de9-3449-4c25-bc81-aba80be5f0b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\glad.c">
@@ -45,6 +51,15 @@
     <ClCompile Include="src\sprite_renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\game_object.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game_level.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ballObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stb_image.h">
@@ -65,6 +80,15 @@
     <ClInclude Include="src\sprite_renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\game_object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_level.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ballObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shaders\sprite.fs">
@@ -72,6 +96,18 @@
     </None>
     <None Include="src\shaders\sprite.vs">
       <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="src\resources\levels\four.lvl">
+      <Filter>Source Files\resources\levels</Filter>
+    </None>
+    <None Include="src\resources\levels\one.lvl">
+      <Filter>Source Files\resources\levels</Filter>
+    </None>
+    <None Include="src\resources\levels\three.lvl">
+      <Filter>Source Files\resources\levels</Filter>
+    </None>
+    <None Include="src\resources\levels\two.lvl">
+      <Filter>Source Files\resources\levels</Filter>
     </None>
   </ItemGroup>
 </Project>
