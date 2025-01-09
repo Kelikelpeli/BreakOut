@@ -25,7 +25,7 @@ TextRenderer* Text;
 float ShakeTime = 0.0f;
 
 Game::Game(unsigned int width, unsigned int height)
-	: State(GAME_ACTIVE), Keys(), Width(width), Height(height)
+	: State(GAME_MENU), Keys(), KeysProcessed(), Width(width), Height(height), Level(0), Lives(3)
 {
 
 }
@@ -194,18 +194,27 @@ void Game::ProcessInput(float dt)
 		}
 		if (this->Keys[GLFW_KEY_SPACE])
 			Ball->Stuck = false;
+
+		//para testear el win
+	/*	if (this->Keys[GLFW_KEY_U]) {
+			for (GameObject& brick : this->Levels[this->Level].Bricks)
+			{
+				if (!brick.IsSolid)
+					brick.Destroyed = true;
+			}
+		}*/		
 	}
 }
 
 void Game::Render()
 {
 
-	if (this->State == GAME_ACTIVE)
+	if (this->State == GAME_ACTIVE || this->State == GAME_MENU || this->State == GAME_WIN)
 	{
 		// begin rendering to postprocessing framebuffer
 		Effects->BeginRender();
 		// draw background
-		 Renderer->DrawSprite(ResourceManager::GetTexture("background"), glm::vec2(0.0f, 0.0f), glm::vec2(this->Width, this->Height), 0.0f);
+		Renderer->DrawSprite(ResourceManager::GetTexture("background"), glm::vec2(0.0f, 0.0f), glm::vec2(this->Width, this->Height), 0.0f);
 		// draw level
 		this->Levels[this->Level].Draw(*Renderer);
 		// draw player
@@ -222,6 +231,7 @@ void Game::Render()
 		Effects->EndRender();
 		// render postprocessing quad
 		Effects->Render(glfwGetTime());
+		// render text (don't include in postprocessing)
 		std::stringstream ss; ss << this->Lives;
 		Text->RenderText("Lives:" + ss.str(), 5.0f, 5.0f, 1.0f);
 	}
@@ -236,6 +246,7 @@ void Game::Render()
 		Text->RenderText("Press ENTER to retry or ESC to quit", 130.0f, this->Height / 2.0f, 1.0f, glm::vec3(1.0f, 1.0f, 0.0f));
 	}
 }
+
 void Game::ResetLevel()
 {
 	if (this->Level == 0)
