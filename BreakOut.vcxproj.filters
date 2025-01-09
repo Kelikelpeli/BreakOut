@@ -66,6 +66,9 @@
     <ClCompile Include="src\post_processor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\text_renderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stb_image.h">
@@ -107,6 +110,9 @@
     <ClInclude Include="Dependencies\include\irrKlang\irrKlang.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\text_renderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shaders\sprite.fs">
@@ -137,6 +143,12 @@
       <Filter>Resource Files\shaders</Filter>
     </None>
     <None Include="src\shaders\post_processing.fs">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="src\shaders\text.vs">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="src\shaders\text.fs">
       <Filter>Resource Files\shaders</Filter>
     </None>
   </ItemGroup>

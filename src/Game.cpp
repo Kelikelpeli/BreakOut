@@ -1,5 +1,5 @@
 #include <algorithm>
-
+#include <sstream>
 #include <filesystem>
 
 #include "game.h"
@@ -8,6 +8,7 @@
 #include "ballObject.h"
 #include "particle_generator.h"
 #include "post_processor.h"
+#include "text_renderer.h"
 
 #include <irrklang/irrKlang.h>
 using namespace irrklang;
@@ -19,6 +20,7 @@ BallObject* Ball;
 ParticleGenerator* Particles;
 PostProcessor* Effects;
 ISoundEngine* SoundEngine = createIrrKlangDevice();
+TextRenderer* Text;
 
 float ShakeTime = 0.0f;
 
@@ -35,6 +37,7 @@ Game::~Game()
 	delete Ball;
 	delete Particles;
 	delete Effects;
+	delete Text;
 	SoundEngine->drop();
 }
 
@@ -46,8 +49,7 @@ void Game::Init()
 	ResourceManager::LoadShader("src/shaders/post_processing.vs", "src/shaders/post_processing.fs", nullptr, "postprocessing");
 
 	//configure shaders
-	glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(this->Width),
-		static_cast<float>(this->Height), 0.0f, -1.0f, 1.0f);
+	glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(this->Width),static_cast<float>(this->Height), 0.0f, -1.0f, 1.0f);
 	ResourceManager::GetShader("sprite").Use().SetInteger("image", 0);
 	ResourceManager::GetShader("sprite").SetMatrix4("projection", projection);
 	ResourceManager::GetShader("particle").Use().SetInteger("sprite", 0);
@@ -72,6 +74,9 @@ void Game::Init()
 	Renderer = new SpriteRenderer(ResourceManager::GetShader("sprite"));
 	Particles = new ParticleGenerator(ResourceManager::GetShader("particle"), ResourceManager::GetTexture("particle"), 500);
 	Effects = new PostProcessor(ResourceManager::GetShader("postprocessing"), this->Width, this->Height);
+	Text = new TextRenderer(this->Width, this->Height);
+	Text->Load("src/resources/fonts/ocraext.TTF", 24);
+
 	// load levels
 	GameLevel one; one.Load("src/resources/levels/one.lvl", this->Width, this->Height / 2);
 	GameLevel two; two.Load("src/resources/levels/two.lvl", this->Width, this->Height / 2);
@@ -113,13 +118,58 @@ void Game::Update(float dt)
 	// check loss condition
 	if (Ball->Position.y >= this->Height) // did ball reach bottom edge?
 	{
+		--this->Lives;
+		// did the player lose all his lives? : Game over
+		if (this->Lives == 0)
+		{
+			this->ResetLevel();
+			this->State = GAME_MENU;
+		}
+		this->ResetPlayer();
+	}
+	// check win condition
+	if (this->State == GAME_ACTIVE && this->Levels[this->Level].IsCompleted())
+	{
 		this->ResetLevel();
 		this->ResetPlayer();
+		Effects->Chaos = true;
+		this->State = GAME_WIN;
 	}
 }
 
 void Game::ProcessInput(float dt)
 {
+	if (this->State == GAME_MENU)
+	{
+		if (this->Keys[GLFW_KEY_ENTER] && !this->KeysProcessed[GLFW_KEY_ENTER])
+		{
+			this->State = GAME_ACTIVE;
+			this->KeysProcessed[GLFW_KEY_ENTER] = true;
+		}
+		if (this->Keys[GLFW_KEY_W] && !this->KeysProcessed[GLFW_KEY_W])
+		{
+			this->Level = (this->Level + 1) % 4;
+			this->KeysProcessed[GLFW_KEY_W] = true;
+		}
+		if (this->Keys[GLFW_KEY_S] && !this->KeysProcessed[GLFW_KEY_S])
+		{
+			if (this->Level > 0)
+				--this->Level;
+			else
+				this->Level = 3;
+			//this->Level = (this->Level - 1) % 4;
+			this->KeysProcessed[GLFW_KEY_S] = true;
+		}
+	}
+	if (this->State == GAME_WIN)
+	{
+		if (this->Keys[GLFW_KEY_ENTER])
+		{
+			this->KeysProcessed[GLFW_KEY_ENTER] = true;
+			Effects->Chaos = false;
+			this->State = GAME_MENU;
+		}
+	}
 	if (this->State == GAME_ACTIVE)
 	{
 		float velocity = PLAYER_VELOCITY * dt;
@@ -144,9 +194,9 @@ void Game::ProcessInput(float dt)
 		}
 		if (this->Keys[GLFW_KEY_SPACE])
 			Ball->Stuck = false;
-			
 	}
 }
+
 void Game::Render()
 {
 
@@ -172,6 +222,18 @@ void Game::Render()
 		Effects->EndRender();
 		// render postprocessing quad
 		Effects->Render(glfwGetTime());
+		std::stringstream ss; ss << this->Lives;
+		Text->RenderText("Lives:" + ss.str(), 5.0f, 5.0f, 1.0f);
+	}
+	if (this->State == GAME_MENU)
+	{
+		Text->RenderText("Press ENTER to start", 250.0f, this->Height / 2.0f, 1.0f);
+		Text->RenderText("Press W or S to select level", 245.0f, this->Height / 2.0f + 20.0f, 0.75f);
+	}
+	if (this->State == GAME_WIN)
+	{
+		Text->RenderText("You WON!!!", 320.0f, this->Height / 2.0f - 20.0f, 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+		Text->RenderText("Press ENTER to retry or ESC to quit", 130.0f, this->Height / 2.0f, 1.0f, glm::vec3(1.0f, 1.0f, 0.0f));
 	}
 }
 void Game::ResetLevel()
@@ -184,6 +246,8 @@ void Game::ResetLevel()
 		this->Levels[2].Load("src/resources/levels/three.lvl", this->Width, this->Height / 2);
 	else if (this->Level == 3)
 		this->Levels[3].Load("src/resources/levels/four.lvl", this->Width, this->Height / 2);
+
+	this->Lives = 3;
 }
 
 void Game::ResetPlayer()
