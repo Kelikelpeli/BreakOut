@@ -36,8 +36,11 @@ const glm::vec2 INITIAL_BALL_VELOCITY(100.0f, -350.0f);
 // Radius of the ball object
 const float BALL_RADIUS = 12.5f;
 
+//the numbers of blocks destroyed for extra life
+const int BLOCK_COUNT_LIFES = 10;
+
 //the start countdown
-const float CONTDOWN_START = 180;
+const float COUNTDOWN_START = 180;
 // Game holds all game-related state and functionality.
 // Combines all game-related data into a single class for
 // easy access to each of the components and manageability.
@@ -76,6 +79,8 @@ public:
     void SpawnPowerUps(GameObject& block);
     void UpdatePowerUps(float dt);
      void ActivatePowerUp(PowerUp& powerUp); 
+private:
+    unsigned int ExtraLifeCounter;
 };
 
 #endif
