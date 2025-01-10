@@ -8,6 +8,7 @@
 
 #include "game_level.h"
 #include "power_up.h"
+#include "ballObject.h"
 
 // Represents the current state of the game
 enum GameState {
@@ -45,9 +46,11 @@ public:
     GameState               State;
     bool                    Keys[1024];
     bool                    KeysProcessed[1024];
+    bool                    Split;
     unsigned int            Width, Height;
     std::vector<GameLevel>  Levels;
     std::vector<PowerUp>    PowerUps;
+    std::vector<BallObject> Balls; // Vector para manejar todas las bolas activas
     unsigned int            Level;
     unsigned int            Lives;
     // constructor/destructor
@@ -66,6 +69,7 @@ public:
 
     void SpawnPowerUps(GameObject& block);
     void UpdatePowerUps(float dt);
+     void ActivatePowerUp(PowerUp& powerUp); 
 };
 
 #endif
