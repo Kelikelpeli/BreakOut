@@ -102,11 +102,15 @@ void Game::Init()
 
 	SoundEngine->play2D("src/resources/audio/breakout.mp3", true);
 
+	this->Countdown = CONTDOWN_START;  //starts the conuntdown
 }
 
 void Game::Update(float dt)
 {
-
+	//starts the couuntdown
+	if (this->State == GAME_ACTIVE&&this->Countdown >0.0f) {
+		this->Countdown -= dt;
+	}
 	for (auto it = Balls.begin(); it != Balls.end();)
 	{
 		if (!it->Stuck)
@@ -119,7 +123,7 @@ void Game::Update(float dt)
 				continue;             
 			}
 		}
-		++it; // incrementa solo si no se borra
+		++it; 
 	}
 	if (Balls.size() == 1) {
 		Balls.back().Color = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -142,11 +146,11 @@ void Game::Update(float dt)
 			Effects->Shake = false;
 	}
 	// check loss condition
-	if (Balls.empty()) // did ball reach bottom edge?
+	if (Balls.empty() || this->Countdown < 0.0f) // did ball reach bottom edge? did the time ends?
 	{
 		--this->Lives;
 		// did the player lose all his lives? : Game over
-		if (this->Lives == 0)
+		if (this->Lives == 0 || this->Countdown<0.0f)
 		{
 			this->ResetLevel();
 			this->State = GAME_MENU;
@@ -276,7 +280,12 @@ void Game::Render()
 		Effects->Render(glfwGetTime());
 		// render text (don't include in postprocessing)
 		std::stringstream ss; ss << this->Lives;
-		Text->RenderText("Lives:" + ss.str(), 5.0f, 5.0f, 1.0f);
+		Text->RenderText("Lives:" + ss.str(), 26.0f, 10.0f, 1.0f);
+
+		std::stringstream countdownText;
+		countdownText << "Time: " << static_cast<int>(this->Countdown);
+		Text->RenderText(countdownText.str(), this->Width - 170.0f, 10.0f, 1.0f, glm::vec3(1.0f, 1.0f, 1.0f));
+
 	}
 	if (this->State == GAME_MENU)
 	{
@@ -302,6 +311,7 @@ void Game::ResetLevel()
 		this->Levels[3].Load("src/resources/levels/four.lvl", this->Width, this->Height / 2);
 
 	this->Lives = 3;
+	this->Countdown = CONTDOWN_START;
 }
 
 void Game::ResetPlayer()

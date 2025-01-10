@@ -36,6 +36,8 @@ const glm::vec2 INITIAL_BALL_VELOCITY(100.0f, -350.0f);
 // Radius of the ball object
 const float BALL_RADIUS = 12.5f;
 
+//the start countdown
+const float CONTDOWN_START = 180;
 // Game holds all game-related state and functionality.
 // Combines all game-related data into a single class for
 // easy access to each of the components and manageability.
@@ -46,7 +48,11 @@ public:
     GameState               State;
     bool                    Keys[1024];
     bool                    KeysProcessed[1024];
+
+    //extra Power up
     bool                    Split;
+
+    float                   Countdown;
     unsigned int            Width, Height;
     std::vector<GameLevel>  Levels;
     std::vector<PowerUp>    PowerUps;
