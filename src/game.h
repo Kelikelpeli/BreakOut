@@ -59,7 +59,7 @@ public:
     unsigned int            Width, Height;
     std::vector<GameLevel>  Levels;
     std::vector<PowerUp>    PowerUps;
-    std::vector<BallObject> Balls; // Vector para manejar todas las bolas activas
+    std::vector<BallObject> Balls; // To manage the balls
     unsigned int            Level;
     unsigned int            Lives;
     // constructor/destructor

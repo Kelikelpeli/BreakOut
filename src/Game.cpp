@@ -10,13 +10,14 @@
 #include "post_processor.h"
 #include "text_renderer.h"
 
+//music and sound
 #include <irrklang/irrKlang.h>
 using namespace irrklang;
 
 // Game-related State data
 SpriteRenderer* Renderer;
 GameObject* Player;
-//BallObject* Ball;
+//BallObject* Ball;  //not necessary now because the vector Balls
 ParticleGenerator* Particles;
 PostProcessor* Effects;
 ISoundEngine* SoundEngine = createIrrKlangDevice();
@@ -34,7 +35,7 @@ Game::~Game()
 {
 	delete Renderer;
 	delete Player;
-	//delete Ball;
+	//delete Ball; //not necessary now because the vector Balls
 	delete Particles;
 	delete Effects;
 	delete Text;
@@ -95,7 +96,7 @@ void Game::Init()
 	glm::vec2 playerPos = glm::vec2(this->Width / 2.0f - PLAYER_SIZE.x / 2.0f, this->Height - PLAYER_SIZE.y);
 	Player = new GameObject(playerPos, PLAYER_SIZE, ResourceManager::GetTexture("paddle"));
 	glm::vec2 ballPos = playerPos + glm::vec2(PLAYER_SIZE.x / 2.0f - BALL_RADIUS, -BALL_RADIUS * 2.0f);
-	//Ball = new BallObject(ballPos, BALL_RADIUS, INITIAL_BALL_VELOCITY, ResourceManager::GetTexture("face"));
+	//Ball = new BallObject(ballPos, BALL_RADIUS, INITIAL_BALL_VELOCITY, ResourceManager::GetTexture("face"));  //not necessary now because the vector Balls
 	Balls.clear(); // Asegurarse de que esté vacío
 	Balls.emplace_back(ballPos, BALL_RADIUS, INITIAL_BALL_VELOCITY, ResourceManager::GetTexture("face"));
 
@@ -112,6 +113,7 @@ void Game::Update(float dt)
 	if (this->State == GAME_ACTIVE&&this->Countdown >0.0f) {
 		this->Countdown -= dt;
 	}
+
 	for (auto it = Balls.begin(); it != Balls.end();)
 	{
 		if (!it->Stuck)
@@ -150,7 +152,7 @@ void Game::Update(float dt)
 	if (Balls.empty() || this->Countdown < 0.0f) // did ball reach bottom edge? did the time ends?
 	{
 		--this->Lives;
-		// did the player lose all his lives? : Game over
+		// did the player lose all his lives? : Game over or the countdown end?
 		if (this->Lives == 0 || this->Countdown<0.0f)
 		{
 			this->ResetLevel();
@@ -188,7 +190,7 @@ void Game::ProcessInput(float dt)
 				--this->Level;
 			else
 				this->Level = 3;
-			//this->Level = (this->Level - 1) % 4;
+			
 			this->KeysProcessed[GLFW_KEY_S] = true;
 		}
 	}
@@ -242,7 +244,7 @@ void Game::ProcessInput(float dt)
 			}
 		}
 
-		//para testear el win
+		//for debugg the win
 	/*	if (this->Keys[GLFW_KEY_U]) {
 			for (GameObject& brick : this->Levels[this->Level].Bricks)
 			{
@@ -337,7 +339,7 @@ void Game::ResetPlayer()
 	Balls.emplace_back(ballPos, BALL_RADIUS, INITIAL_BALL_VELOCITY, ResourceManager::GetTexture("face"));
 	Balls.back().Stuck = true;
 	Balls.back().PassThrough = false;
-	//Ball->Reset(Player->Position + glm::vec2(PLAYER_SIZE.x / 2.0f - BALL_RADIUS, -(BALL_RADIUS * 2.0f)), INITIAL_BALL_VELOCITY);
+	//Ball->Reset(Player->Position + glm::vec2(PLAYER_SIZE.x / 2.0f - BALL_RADIUS, -(BALL_RADIUS * 2.0f)), INITIAL_BALL_VELOCITY);  //not necessary now because the vector Balls
 	// also disable all active powerups
 	Effects->Confuse = false;
 	Effects->Chaos = false;
@@ -434,7 +436,7 @@ bool ShouldSpawn(unsigned int chance)
 }
 void Game::SpawnPowerUps(GameObject& block)
 {
-	if (!block.HasSpawnedPowerUp)
+	if (!block.HasSpawnedPowerUp)  //to avoid two power ups from the same block
 	{
 		if (ShouldSpawn(75)) // 1 in 75 chance
 			this->PowerUps.push_back(PowerUp("speed", glm::vec3(0.5f, 0.5f, 1.0f), 0.0f, block.Position, ResourceManager::GetTexture("powerup_speed")));
@@ -498,7 +500,7 @@ void Game::ActivatePowerUp(PowerUp& powerUp)
 	//Power_Up extra
 	else if (powerUp.Type == "split")
 	{
-		//chack if already are more than 1+one ball in the vector
+		//check if already are more than one ball in the vector
 		if (Balls.size() >= 2)
 			return;
 		//else create the balls
